@@ -1,0 +1,2283 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>🎰 GeraldWin</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600;700&display=swap');
+
+    :root {
+      --gold: #F5C842;
+      --gold-dark: #C9961A;
+      --dark: #1A1A2E;
+      --darker: #0F0F1E;
+      --accent: #E94560;
+      --accent2: #16213E;
+      --white: #FFFFFF;
+      --gray: #8892B0;
+      --card-bg: rgba(255, 255, 255, 0.05);
+      --success: #00D084;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--darker);
+      color: var(--white);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* HERO */
+    .hero {
+      background: linear-gradient(135deg, #0F0F1E 0%, #1A1A2E 50%, #16213E 100%);
+      padding: 2rem 1rem 1rem;
+      text-align: center;
+      position: relative;
+      border-bottom: 2px solid var(--gold);
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: radial-gradient(ellipse at 50% 0%, rgba(245, 200, 66, 0.12) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .logo-area {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      margin-bottom: 0.5rem;
+    }
+
+    .logo-icon {
+      font-size: 2.5rem;
+      filter: drop-shadow(0 0 12px rgba(245, 200, 66, 0.6));
+    }
+
+    .brand-name {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(2rem, 8vw, 4rem);
+      letter-spacing: 4px;
+      color: var(--gold);
+      text-shadow: 0 0 30px rgba(245, 200, 66, 0.4);
+      line-height: 1;
+    }
+
+    .brand-sub {
+      font-size: 0.85rem;
+      color: var(--gray);
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      margin-bottom: 1.5rem;
+    }
+
+    .prize-badge {
+      display: inline-block;
+      background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+      color: var(--darker);
+      font-weight: 700;
+      font-size: 0.9rem;
+      padding: 6px 20px;
+      border-radius: 100px;
+      margin-bottom: 0.5rem;
+      letter-spacing: 1px;
+      animation: pulse-gold 2s ease-in-out infinite;
+    }
+
+    @keyframes pulse-gold {
+
+      0%,
+      100% {
+        box-shadow: 0 0 0 0 rgba(245, 200, 66, 0.4);
+      }
+
+      50% {
+        box-shadow: 0 0 0 12px rgba(245, 200, 66, 0);
+      }
+    }
+
+    /* NAVEGACIÓN TABS */
+    .tabs {
+      display: flex;
+      background: var(--accent2);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      overflow-x: auto;
+      scrollbar-width: none;
+    }
+
+    .tabs::-webkit-scrollbar {
+      display: none;
+    }
+
+    .tab {
+      flex: 1;
+      min-width: 100px;
+      padding: 14px 8px;
+      text-align: center;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--gray);
+      cursor: pointer;
+      border-bottom: 3px solid transparent;
+      transition: all 0.25s;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      white-space: nowrap;
+      user-select: none;
+    }
+
+    .tab.active {
+      color: var(--gold);
+      border-bottom-color: var(--gold);
+    }
+
+    .tab:hover:not(.active) {
+      color: var(--white);
+    }
+
+    /* SECCIONES */
+    .section {
+      display: none;
+      padding: 1.5rem 1rem;
+      max-width: 480px;
+      margin: 0 auto;
+    }
+
+    .section.active {
+      display: block;
+    }
+
+    /* NÚMEROS */
+    .raffle-header {
+      text-align: center;
+      margin-bottom: 1.5rem;
+    }
+
+    .raffle-header h2 {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.8rem;
+      color: var(--gold);
+      letter-spacing: 2px;
+    }
+
+    .raffle-header p {
+      color: var(--gray);
+      font-size: 0.85rem;
+      margin-top: 4px;
+    }
+
+    .price-banner {
+      background: linear-gradient(135deg, rgba(233, 69, 96, 0.2), rgba(233, 69, 96, 0.05));
+      border: 1px solid rgba(233, 69, 96, 0.3);
+      border-radius: 12px;
+      padding: 12px 16px;
+      text-align: center;
+      margin-bottom: 1.5rem;
+    }
+
+    .price-banner .amount {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 2.2rem;
+      color: var(--accent);
+      letter-spacing: 2px;
+    }
+
+    .price-banner .per {
+      font-size: 0.8rem;
+      color: var(--gray);
+    }
+
+    .search-box {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 1rem;
+    }
+
+    .search-box input {
+      flex: 1;
+      background: rgba(255, 255, 255, 0.07);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 10px;
+      color: var(--white);
+      font-size: 1rem;
+      padding: 10px 14px;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    .search-box input:focus {
+      border-color: var(--gold);
+    }
+
+    .search-box input::placeholder {
+      color: var(--gray);
+    }
+
+    .btn-search {
+      background: var(--gold);
+      color: var(--darker);
+      border: none;
+      border-radius: 10px;
+      padding: 10px 18px;
+      font-weight: 700;
+      cursor: pointer;
+      font-size: 0.9rem;
+      transition: opacity 0.2s;
+    }
+
+    .btn-search:hover {
+      opacity: 0.85;
+    }
+
+    .grid-label {
+      font-size: 0.75rem;
+      color: var(--gray);
+      margin-bottom: 8px;
+      letter-spacing: 0.5px;
+    }
+
+    .numbers-grid {
+      display: grid;
+      grid-template-columns: repeat(10, 1fr);
+      gap: 4px;
+      margin-bottom: 1.5rem;
+    }
+
+    .num-btn {
+      aspect-ratio: 1;
+      border-radius: 6px;
+      border: 1.5px solid rgba(255, 255, 255, 0.15);
+      background: rgba(255, 255, 255, 0.05);
+      color: var(--white);
+      font-size: 0.65rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.18s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .num-btn:hover:not(.sold):not(.selected) {
+      border-color: var(--gold);
+      background: rgba(245, 200, 66, 0.15);
+      color: var(--gold);
+      transform: scale(1.12);
+    }
+
+    .num-btn.sold {
+      background: rgba(233, 69, 96, 0.2);
+      border-color: rgba(233, 69, 96, 0.3);
+      color: rgba(233, 69, 96, 0.5);
+      cursor: not-allowed;
+      text-decoration: line-through;
+    }
+
+    .num-btn.selected {
+      background: var(--gold);
+      border-color: var(--gold);
+      color: var(--darker);
+      transform: scale(1.1);
+    }
+
+    .legend {
+      display: flex;
+      gap: 16px;
+      font-size: 0.72rem;
+      color: var(--gray);
+      margin-bottom: 1.5rem;
+      flex-wrap: wrap;
+    }
+
+    .legend-item {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .legend-dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 3px;
+    }
+
+    .selected-summary {
+      background: rgba(245, 200, 66, 0.08);
+      border: 1px solid rgba(245, 200, 66, 0.25);
+      border-radius: 12px;
+      padding: 14px 16px;
+      margin-bottom: 1rem;
+    }
+
+    .selected-summary .label {
+      font-size: 0.78rem;
+      color: var(--gray);
+      margin-bottom: 6px;
+    }
+
+    .selected-summary .nums {
+      font-weight: 700;
+      color: var(--gold);
+      font-size: 1.05rem;
+    }
+
+    .selected-summary .total {
+      font-size: 0.85rem;
+      color: var(--white);
+      margin-top: 4px;
+    }
+
+    .btn-reserve {
+      width: 100%;
+      background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+      color: var(--darker);
+      border: none;
+      border-radius: 12px;
+      padding: 15px;
+      font-size: 1rem;
+      font-weight: 700;
+      cursor: pointer;
+      letter-spacing: 0.5px;
+      transition: all 0.2s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    .btn-reserve:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(245, 200, 66, 0.35);
+    }
+
+    .btn-reserve:disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+      transform: none;
+      box-shadow: none;
+    }
+
+    /* RULETA */
+    .ruleta-container {
+      text-align: center;
+    }
+
+    .ruleta-columns {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1.5rem;
+    }
+
+    @media (min-width: 768px) {
+      .ruleta-columns {
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+        gap: 1.5rem;
+      }
+
+      .ruleta-left {
+        flex: 0 0 auto;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 0.75rem;
+      }
+
+      .ruleta-right {
+        flex: 0 0 320px;
+        text-align: left;
+      }
+
+      .ruleta-right .prizes-list {
+        margin-top: 0;
+      }
+
+      .btn-spin {
+        margin-bottom: 0;
+      }
+
+      .spin-cost {
+        margin-bottom: 0;
+      }
+    }
+
+    .ruleta-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 2rem;
+      color: var(--gold);
+      letter-spacing: 3px;
+      margin-bottom: 4px;
+    }
+
+    .ruleta-sub {
+      color: var(--gray);
+      font-size: 0.83rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .wheel-wrap {
+      position: relative;
+      width: 280px;
+      height: 280px;
+      margin: 0 auto 1.5rem;
+    }
+
+    @media (min-width: 768px) {
+      .wheel-wrap {
+        width: 420px;
+        height: 420px;
+      }
+    }
+
+    #wheelCanvas {
+      border-radius: 50%;
+      box-shadow: 0 0 0 6px rgba(245, 200, 66, 0.25), 0 0 40px rgba(245, 200, 66, 0.15);
+    }
+
+    .wheel-center {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 38px;
+      height: 38px;
+      background: var(--gold);
+      border-radius: 50%;
+      border: 3px solid var(--darker);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1rem;
+      z-index: 10;
+    }
+
+    .wheel-pointer {
+      position: absolute;
+      top: -14px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 0;
+      height: 0;
+      border-left: 12px solid transparent;
+      border-right: 12px solid transparent;
+      border-top: 28px solid var(--gold);
+      filter: drop-shadow(0 4px 8px rgba(245, 200, 66, 0.6));
+      z-index: 10;
+    }
+
+    .btn-spin {
+      background: linear-gradient(135deg, var(--accent), #c73652);
+      color: white;
+      border: none;
+      border-radius: 12px;
+      padding: 14px 40px;
+      font-size: 1.1rem;
+      font-weight: 700;
+      cursor: pointer;
+      letter-spacing: 1px;
+      transition: all 0.2s;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 1rem;
+    }
+
+    .btn-spin:hover:not(:disabled) {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(233, 69, 96, 0.4);
+    }
+
+    .btn-spin:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .spin-cost {
+      font-size: 0.78rem;
+      color: var(--gray);
+      margin-bottom: 1.5rem;
+    }
+
+    .spin-result {
+      background: rgba(0, 208, 132, 0.1);
+      border: 1px solid rgba(0, 208, 132, 0.3);
+      border-radius: 12px;
+      padding: 16px;
+      margin-bottom: 1rem;
+      display: none;
+      animation: popIn 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    .spin-result.show {
+      display: block;
+    }
+
+    @keyframes popIn {
+      from {
+        transform: scale(0.8);
+        opacity: 0;
+      }
+
+      to {
+        transform: scale(1);
+        opacity: 1;
+      }
+    }
+
+    .spin-result .result-emoji {
+      font-size: 2.5rem;
+      margin-bottom: 8px;
+    }
+
+    .spin-result .result-label {
+      font-size: 0.78rem;
+      color: var(--gray);
+      margin-bottom: 4px;
+    }
+
+    .spin-result .result-prize {
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: var(--success);
+    }
+
+    .prizes-list {
+      text-align: left;
+      background: var(--card-bg);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 12px;
+      overflow: hidden;
+      margin-top: 1rem;
+    }
+
+    .prizes-list-header {
+      padding: 10px 14px;
+      font-size: 0.72rem;
+      color: var(--gray);
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    }
+
+    .prize-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 14px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+      font-size: 0.85rem;
+    }
+
+    .prize-row:last-child {
+      border-bottom: none;
+    }
+
+    .prize-row .p-emoji {
+      font-size: 1.3rem;
+      min-width: 28px;
+      text-align: center;
+    }
+
+    .prize-row .p-name {
+      flex: 1;
+      color: var(--white);
+      font-weight: 500;
+    }
+
+    .prize-row .p-odds {
+      font-size: 0.72rem;
+      color: var(--gray);
+    }
+
+    /* PAGOS */
+    .payment-header {
+      text-align: center;
+      margin-bottom: 1.5rem;
+    }
+
+    .payment-header h2 {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.8rem;
+      color: var(--gold);
+      letter-spacing: 2px;
+    }
+
+    .payment-header p {
+      color: var(--gray);
+      font-size: 0.83rem;
+      margin-top: 4px;
+    }
+
+    .bank-card {
+      background: var(--card-bg);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 14px;
+      padding: 16px;
+      margin-bottom: 12px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .bank-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 4px;
+      height: 100%;
+      border-radius: 4px 0 0 4px;
+    }
+
+    .bank-pacific .bank-card::before {
+      background: #0055A4;
+    }
+
+    .bank-guayaquil .bank-card::before {
+      background: #E5002B;
+    }
+
+    .bank-logo-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 12px;
+    }
+
+    .bank-icon {
+      width: 38px;
+      height: 38px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+      font-weight: 900;
+    }
+
+    .bank-pacific .bank-icon {
+      background: rgba(0, 85, 164, 0.25);
+      color: #4A9FE5;
+    }
+
+    .bank-guayaquil .bank-icon {
+      background: rgba(229, 0, 43, 0.2);
+      color: #FF4D6A;
+    }
+
+    .bank-name {
+      font-weight: 700;
+      font-size: 0.95rem;
+    }
+
+    .bank-type {
+      font-size: 0.75rem;
+      color: var(--gray);
+    }
+
+    .bank-field {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 7px 0;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    .bank-field:last-child {
+      border-bottom: none;
+    }
+
+    .bank-field .field-label {
+      font-size: 0.75rem;
+      color: var(--gray);
+    }
+
+    .bank-field .field-val {
+      font-size: 0.88rem;
+      font-weight: 600;
+      color: var(--white);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .copy-btn {
+      background: rgba(255, 255, 255, 0.08);
+      border: none;
+      border-radius: 5px;
+      color: var(--gray);
+      font-size: 0.7rem;
+      padding: 3px 7px;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+
+    .copy-btn:hover {
+      background: rgba(245, 200, 66, 0.15);
+      color: var(--gold);
+    }
+
+    .copy-btn.copied {
+      background: rgba(0, 208, 132, 0.15);
+      color: var(--success);
+    }
+
+    .steps-section {
+      background: var(--card-bg);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 14px;
+      padding: 16px;
+      margin-top: 1.5rem;
+    }
+
+    .steps-title {
+      font-size: 0.75rem;
+      color: var(--gray);
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      margin-bottom: 14px;
+    }
+
+    .step-item {
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+      margin-bottom: 12px;
+    }
+
+    .step-item:last-child {
+      margin-bottom: 0;
+    }
+
+    .step-num {
+      width: 24px;
+      height: 24px;
+      min-width: 24px;
+      background: var(--gold);
+      color: var(--darker);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.7rem;
+      font-weight: 800;
+      margin-top: 1px;
+    }
+
+    .step-text {
+      font-size: 0.85rem;
+      color: var(--white);
+      line-height: 1.4;
+    }
+
+    .step-text span {
+      color: var(--gold);
+      font-weight: 600;
+    }
+
+    .upload-proof {
+      background: rgba(245, 200, 66, 0.06);
+      border: 1.5px dashed rgba(245, 200, 66, 0.3);
+      border-radius: 12px;
+      padding: 20px;
+      text-align: center;
+      margin-top: 1rem;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .upload-proof:hover {
+      background: rgba(245, 200, 66, 0.1);
+      border-color: rgba(245, 200, 66, 0.5);
+    }
+
+    .upload-proof .u-icon {
+      font-size: 2rem;
+      margin-bottom: 6px;
+    }
+
+    .upload-proof .u-text {
+      font-size: 0.83rem;
+      color: var(--gray);
+    }
+
+    .upload-proof .u-sub {
+      font-size: 0.72rem;
+      color: rgba(255, 255, 255, 0.3);
+      margin-top: 4px;
+    }
+
+    /* SORTEO / RESULTADOS */
+    .results-header {
+      text-align: center;
+      margin-bottom: 1.5rem;
+    }
+
+    .results-header h2 {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.8rem;
+      color: var(--gold);
+      letter-spacing: 2px;
+    }
+
+    .results-header p {
+      color: var(--gray);
+      font-size: 0.83rem;
+      margin-top: 4px;
+    }
+
+    .countdown-card {
+      background: linear-gradient(135deg, rgba(233, 69, 96, 0.15), rgba(233, 69, 96, 0.05));
+      border: 1px solid rgba(233, 69, 96, 0.25);
+      border-radius: 14px;
+      padding: 20px;
+      text-align: center;
+      margin-bottom: 1.5rem;
+    }
+
+    .countdown-label {
+      font-size: 0.75rem;
+      color: var(--gray);
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      margin-bottom: 10px;
+    }
+
+    .countdown-digits {
+      display: flex;
+      justify-content: center;
+      gap: 8px;
+      align-items: flex-end;
+    }
+
+    .digit-block {
+      background: rgba(255, 255, 255, 0.07);
+      border-radius: 8px;
+      padding: 8px 12px;
+      min-width: 52px;
+    }
+
+    .digit-block .d-num {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 2rem;
+      color: var(--accent);
+      line-height: 1;
+    }
+
+    .digit-block .d-label {
+      font-size: 0.6rem;
+      color: var(--gray);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-top: 2px;
+    }
+
+    .digit-sep {
+      font-size: 1.8rem;
+      color: var(--gray);
+      margin-bottom: 16px;
+      line-height: 1;
+    }
+
+    .sorteo-info {
+      background: var(--card-bg);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 12px;
+      padding: 14px;
+      margin-bottom: 1rem;
+    }
+
+    .info-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 7px 0;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+      font-size: 0.85rem;
+    }
+
+    .info-row:last-child {
+      border-bottom: none;
+    }
+
+    .info-row .ir-label {
+      color: var(--gray);
+    }
+
+    .info-row .ir-val {
+      font-weight: 600;
+      color: var(--white);
+    }
+
+    .progress-section {
+      margin-bottom: 1.5rem;
+    }
+
+    .progress-label {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.78rem;
+      color: var(--gray);
+      margin-bottom: 6px;
+    }
+
+    .progress-bar {
+      height: 8px;
+      background: rgba(255, 255, 255, 0.08);
+      border-radius: 100px;
+      overflow: hidden;
+    }
+
+    .progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--gold), var(--accent));
+      border-radius: 100px;
+      transition: width 0.8s ease;
+    }
+
+    /* MODAL */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.8);
+      z-index: 100;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
+      backdrop-filter: blur(4px);
+    }
+
+    .modal-overlay.show {
+      display: flex;
+    }
+
+    .modal {
+      background: var(--dark);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 18px;
+      padding: 24px;
+      width: 100%;
+      max-width: 380px;
+      animation: popIn 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    .modal-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.5rem;
+      color: var(--gold);
+      letter-spacing: 2px;
+      margin-bottom: 4px;
+    }
+
+    .modal-sub {
+      font-size: 0.8rem;
+      color: var(--gray);
+      margin-bottom: 16px;
+    }
+
+    .modal label {
+      display: block;
+      font-size: 0.78rem;
+      color: var(--gray);
+      margin-bottom: 4px;
+      margin-top: 12px;
+    }
+
+    .modal input,
+    .modal select {
+      width: 100%;
+      background: rgba(255, 255, 255, 0.07);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 10px;
+      color: var(--white);
+      font-size: 0.9rem;
+      padding: 10px 12px;
+      outline: none;
+      transition: border-color 0.2s;
+      font-family: 'Inter', sans-serif;
+    }
+
+    .modal input:focus,
+    .modal select:focus {
+      border-color: var(--gold);
+    }
+
+    .modal select option {
+      background: var(--dark);
+      color: var(--white);
+    }
+
+    .modal-summary {
+      background: rgba(245, 200, 66, 0.06);
+      border: 1px solid rgba(245, 200, 66, 0.2);
+      border-radius: 10px;
+      padding: 12px;
+      margin-top: 14px;
+      font-size: 0.83rem;
+    }
+
+    .modal-summary .ms-label {
+      color: var(--gray);
+      margin-bottom: 4px;
+    }
+
+    .modal-summary .ms-nums {
+      color: var(--gold);
+      font-weight: 700;
+      font-size: 0.95rem;
+    }
+
+    .modal-summary .ms-total {
+      color: var(--white);
+      margin-top: 6px;
+      font-weight: 600;
+    }
+
+    .modal-actions {
+      display: flex;
+      gap: 8px;
+      margin-top: 16px;
+    }
+
+    .btn-cancel {
+      flex: 1;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      color: var(--white);
+      border-radius: 10px;
+      padding: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      font-size: 0.88rem;
+      transition: all 0.2s;
+    }
+
+    .btn-cancel:hover {
+      background: rgba(255, 255, 255, 0.1);
+    }
+
+    .btn-confirm {
+      flex: 2;
+      background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+      color: var(--darker);
+      border: none;
+      border-radius: 10px;
+      padding: 12px;
+      font-weight: 700;
+      cursor: pointer;
+      font-size: 0.88rem;
+      transition: all 0.2s;
+    }
+
+    .btn-confirm:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 6px 20px rgba(245, 200, 66, 0.3);
+    }
+
+    /* FLOATING WHATSAPP */
+    .wa-float {
+      position: fixed;
+      bottom: 20px;
+      right: 16px;
+      background: #25D366;
+      color: white;
+      border-radius: 50px;
+      padding: 12px 18px;
+      font-size: 0.82rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      cursor: pointer;
+      box-shadow: 0 4px 20px rgba(37, 211, 102, 0.4);
+      z-index: 50;
+      text-decoration: none;
+      transition: all 0.2s;
+      animation: float 3s ease-in-out infinite;
+    }
+
+    .wa-float:hover {
+      transform: scale(1.05) translateY(-3px);
+    }
+
+    @keyframes float {
+
+      0%,
+      100% {
+        transform: translateY(0);
+      }
+
+      50% {
+        transform: translateY(-5px);
+      }
+    }
+
+    .toast {
+      position: fixed;
+      bottom: 80px;
+      left: 50%;
+      transform: translateX(-50%) translateY(20px);
+      background: rgba(30, 30, 50, 0.95);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 10px;
+      padding: 10px 18px;
+      font-size: 0.82rem;
+      color: var(--white);
+      z-index: 200;
+      opacity: 0;
+      transition: all 0.3s;
+      pointer-events: none;
+      white-space: nowrap;
+    }
+
+    .toast.show {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+
+    /* ADMIN PANEL */
+    .admin-panel {
+      display: none;
+      position: fixed;
+      bottom: 80px;
+      right: 16px;
+      background: #1A1A2E;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 14px;
+      padding: 18px;
+      width: 300px;
+      z-index: 200;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+    }
+
+    .admin-panel.show {
+      display: block;
+    }
+
+    .admin-panel h3 {
+      font-size: 0.85rem;
+      color: var(--gold);
+      margin-bottom: 10px;
+      font-family: 'Bebas Neue', sans-serif;
+      letter-spacing: 1px;
+    }
+
+    .admin-panel .row {
+      font-size: 0.78rem;
+      color: var(--gray);
+      margin-bottom: 6px;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .admin-panel .row .val {
+      color: var(--white);
+      font-weight: 600;
+    }
+
+    .admin-panel .btn-admin {
+      width: 100%;
+      padding: 8px;
+      font-size: 0.78rem;
+      font-weight: 600;
+      background: rgba(245, 200, 66, 0.12);
+      border: 1px solid rgba(245, 200, 66, 0.25);
+      color: var(--gold);
+      border-radius: 8px;
+      cursor: pointer;
+      margin-top: 6px;
+      transition: all 0.2s;
+    }
+
+    .admin-panel .btn-admin:hover {
+      background: rgba(245, 200, 66, 0.2);
+    }
+
+    .admin-panel .file-label {
+      display: block;
+      text-align: center;
+      padding: 12px;
+      margin-top: 6px;
+      background: rgba(0, 208, 132, 0.08);
+      border: 1.5px dashed rgba(0, 208, 132, 0.3);
+      border-radius: 8px;
+      color: var(--success);
+      font-size: 0.78rem;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .admin-panel .file-label:hover {
+      background: rgba(0, 208, 132, 0.15);
+    }
+
+    .admin-panel #excelInput {
+      display: none;
+    }
+
+    .admin-panel #excel-status {
+      font-size: 0.72rem;
+      margin-top: 4px;
+      color: var(--gray);
+    }
+
+    .admin-close {
+      position: absolute;
+      top: 8px;
+      right: 10px;
+      background: none;
+      border: none;
+      color: var(--gray);
+      font-size: 1.2rem;
+      cursor: pointer;
+    }
+
+    .admin-close:hover {
+      color: var(--white);
+    }
+
+    .admin-btn {
+      position: fixed;
+      bottom: 20px;
+      left: 16px;
+      z-index: 50;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.10);
+      color: var(--gray);
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      font-size: 1.1rem;
+      cursor: pointer;
+      transition: all 0.2s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .admin-btn:hover {
+      background: rgba(255, 255, 255, 0.12);
+      color: var(--white);
+    }
+
+    @media (max-width: 360px) {
+      .numbers-grid {
+        grid-template-columns: repeat(8, 1fr);
+      }
+
+      .brand-name {
+        font-size: 2rem;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="brand-sub">La Heralda de la Suerte tiene nombre.</div>
+    <div class="logo-area">
+      <div class="logo-icon">🍀</div>
+      <div>
+        <div class="brand-name">GeraldWin</div>
+      </div>
+      <div class="logo-icon">🍀</div>
+    </div>
+
+    <div class="prize-badge">Tu lotería virtual.</div>
+  </div>
+
+  <!-- TABS -->
+  <div class="tabs">
+    <div class="tab active" onclick="showTab('numeros')">🎟 Números</div>
+    <div class="tab" onclick="showTab('ruleta')">🎡 Ruleta</div>
+    <div class="tab" onclick="showTab('info')">💰 Info + Pago</div>
+  </div>
+
+  <!-- SECCIÓN: NÚMEROS -->
+  <div class="section active" id="sec-numeros">
+    <div class="raffle-header">
+      <h2>Elige tus números</h2>
+      <p>Selecciona 1 o más números de la suerte</p>
+    </div>
+
+    <div class="price-banner">
+      <div class="amount" id="display-price">$2.00</div>
+      <div class="per">por número · paga cuando quieras</div>
+    </div>
+
+    <div class="search-box">
+      <input type="number" id="search-num" placeholder="Busca un número (ej: 42)" min="0" max="99">
+      <button class="btn-search" onclick="buscarNumero()">Buscar</button>
+    </div>
+
+    <div class="grid-label">Toca un número para seleccionarlo</div>
+    <div class="numbers-grid" id="numGrid"></div>
+
+    <div class="legend">
+      <div class="legend-item">
+        <div class="legend-dot" style="background:rgba(255,255,255,0.1);border:1.5px solid rgba(255,255,255,0.2)"></div>
+        Disponible
+      </div>
+      <div class="legend-item">
+        <div class="legend-dot" style="background:#F5C842"></div> Seleccionado
+      </div>
+      <div class="legend-item">
+        <div class="legend-dot" style="background:rgba(233,69,96,0.3)"></div> Vendido
+      </div>
+    </div>
+
+    <div class="selected-summary" id="selectedSummary" style="display:none">
+      <div class="label">Tus números elegidos</div>
+      <div class="nums" id="selectedNums">—</div>
+      <div class="total" id="selectedTotal"></div>
+    </div>
+
+    <button class="btn-reserve" id="btnReserve" onclick="abrirModal()" disabled>
+      🔒 Reservar mis números
+    </button>
+  </div>
+
+  <!-- SECCIÓN: RULETA -->
+  <div class="section" id="sec-ruleta">
+    <div class="ruleta-container">
+      <div class="ruleta-title">Ruleta de Premios</div>
+      <div class="ruleta-sub">¡Gira y descubre tu premio instantáneo!</div>
+
+      <div class="ruleta-columns">
+        <div class="ruleta-left">
+          <button class="btn-spin" id="btnSpin" onclick="girarRuleta()">
+            ⚡ ¡GIRAR!
+          </button>
+          <div class="spin-cost">Cada giro cuesta $1 · ¡Premios instantáneos!</div>
+
+          <div class="spin-result" id="spinResult">
+            <div class="result-emoji" id="resultEmoji">🎁</div>
+            <div class="result-label">¡Ganaste!</div>
+            <div class="result-prize" id="resultPrize">Premio</div>
+          </div>
+        </div>
+
+        <div class="wheel-wrap">
+          <div class="wheel-pointer"></div>
+          <canvas id="wheelCanvas"></canvas>
+          <div class="wheel-center">🎯</div>
+        </div>
+
+        <div class="ruleta-right">
+          <div class="prizes-list" id="prizesList">
+            <div class="prizes-list-header">Premios disponibles <span
+                style="font-weight:400;color:var(--gray);font-size:0.7rem;margin-left:4px;">(el % es la probabilidad de
+                cada premio al girar)</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECCIÓN: INFO + PAGO -->
+  <div class="section" id="sec-info">
+    <div class="payment-header">
+      <h2>GeraldWin</h2>
+      <p>Información, pago y sorteo</p>
+    </div>
+
+    <div class="countdown-card">
+      <div class="countdown-label">⏳ Tiempo restante para el sorteo</div>
+      <div class="countdown-digits">
+        <div class="digit-block">
+          <div class="d-num" id="cd-days">00</div>
+          <div class="d-label">Días</div>
+        </div>
+        <div class="digit-sep">:</div>
+        <div class="digit-block">
+          <div class="d-num" id="cd-hours">00</div>
+          <div class="d-label">Horas</div>
+        </div>
+        <div class="digit-sep">:</div>
+        <div class="digit-block">
+          <div class="d-num" id="cd-mins">00</div>
+          <div class="d-label">Min</div>
+        </div>
+        <div class="digit-sep">:</div>
+        <div class="digit-block">
+          <div class="d-num" id="cd-secs">00</div>
+          <div class="d-label">Seg</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="progress-section">
+      <div class="progress-label">
+        <span>Boletos vendidos</span>
+        <span id="sold-count">0 / 100</span>
+      </div>
+      <div class="progress-bar">
+        <div class="progress-fill" id="progress-fill" style="width:0%"></div>
+      </div>
+    </div>
+
+    <div class="sorteo-info">
+      <div class="info-row">
+        <span class="ir-label">🏆 Premio mayor</span>
+        <span class="ir-val" id="draw-prize">Por definir</span>
+      </div>
+      <div class="info-row">
+        <span class="ir-label">📅 Fecha del sorteo</span>
+        <span class="ir-val" id="draw-date">Por definir</span>
+      </div>
+      <div class="info-row">
+        <span class="ir-label">🕐 Hora</span>
+        <span class="ir-val" id="draw-time">Por definir</span>
+      </div>
+      <div class="info-row">
+        <span class="ir-label">💰 Precio por boleto</span>
+        <span class="ir-val" id="draw-price-info">$2.00</span>
+      </div>
+      <div class="info-row">
+        <span class="ir-label">🎯 Total de números</span>
+        <span class="ir-val" id="draw-total-nums">100</span>
+      </div>
+      <div class="info-row">
+        <span class="ir-label">📡 Transmisión</span>
+        <span class="ir-val" id="draw-transmision">Facebook Live</span>
+      </div>
+    </div>
+
+    <div style="height:1px;background:rgba(255,255,255,0.08);margin:1.5rem 0;"></div>
+
+    <div class="payment-header" style="margin-bottom:1rem;">
+      <h2 style="font-size:1.3rem;">💳 Datos de Pago</h2>
+    </div>
+
+    <div class="bank-pacific">
+      <div class="bank-card">
+        <div class="bank-logo-row">
+          <div class="bank-icon">P</div>
+          <div>
+            <div class="bank-name">Banco Pacífico</div>
+            <div class="bank-type">Cuenta de Ahorros</div>
+          </div>
+        </div>
+        <div class="bank-field">
+          <div class="field-label">Titular</div>
+          <div class="field-val">
+            <span id="bp-titular">Tu Nombre Aquí</span>
+            <button class="copy-btn" onclick="copiar('bp-titular', this)">Copiar</button>
+          </div>
+        </div>
+        <div class="bank-field">
+          <div class="field-label">N° de cuenta</div>
+          <div class="field-val">
+            <span id="bp-cuenta">0000000000</span>
+            <button class="copy-btn" onclick="copiar('bp-cuenta', this)">Copiar</button>
+          </div>
+        </div>
+        <div class="bank-field">
+          <div class="field-label">Cédula</div>
+          <div class="field-val">
+            <span id="bp-cedula">0000000000</span>
+            <button class="copy-btn" onclick="copiar('bp-cedula', this)">Copiar</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="bank-guayaquil">
+      <div class="bank-card">
+        <div class="bank-logo-row">
+          <div class="bank-icon">G</div>
+          <div>
+            <div class="bank-name">Banco Guayaquil</div>
+            <div class="bank-type">Cuenta de Ahorros</div>
+          </div>
+        </div>
+        <div class="bank-field">
+          <div class="field-label">Titular</div>
+          <div class="field-val">
+            <span id="bg-titular">Tu Nombre Aquí</span>
+            <button class="copy-btn" onclick="copiar('bg-titular', this)">Copiar</button>
+          </div>
+        </div>
+        <div class="bank-field">
+          <div class="field-label">N° de cuenta</div>
+          <div class="field-val">
+            <span id="bg-cuenta">0000000000</span>
+            <button class="copy-btn" onclick="copiar('bg-cuenta', this)">Copiar</button>
+          </div>
+        </div>
+        <div class="bank-field">
+          <div class="field-label">Cédula</div>
+          <div class="field-val">
+            <span id="bg-cedula">0000000000</span>
+            <button class="copy-btn" onclick="copiar('bg-cedula', this)">Copiar</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="steps-section">
+      <div class="steps-title">Cómo participar</div>
+      <div class="step-item">
+        <div class="step-num">1</div>
+        <div class="step-text">Elige tus <span>números de la suerte</span> en la pestaña de Números</div>
+      </div>
+      <div class="step-item">
+        <div class="step-num">2</div>
+        <div class="step-text">Realiza la transferencia al banco de tu preferencia por el valor exacto</div>
+      </div>
+      <div class="step-item">
+        <div class="step-num">3</div>
+        <div class="step-text">Envía el <span>comprobante de pago</span> por WhatsApp con tu nombre y número elegido
+        </div>
+      </div>
+      <div class="step-item">
+        <div class="step-num">4</div>
+        <div class="step-text">¡Listo! Tu número queda <span>confirmado</span> una vez revisado el pago</div>
+      </div>
+    </div>
+
+    <a id="wa-pago" target="_blank" class="btn-reserve" style="text-decoration:none; display:flex; margin-top:1rem;">
+      📲 Enviar comprobante por WhatsApp
+    </a>
+
+    <a id="wa-info" target="_blank" class="btn-reserve"
+      style="text-decoration:none; display:flex; margin-top:0.5rem;background:rgba(255,255,255,0.06);color:var(--white);">
+      📩 Consultar al organizador
+    </a>
+  </div>
+
+  <!-- MODAL RESERVA -->
+  <div class="modal-overlay" id="modalOverlay">
+    <div class="modal">
+      <div class="modal-title">Confirmar reserva</div>
+      <div class="modal-sub">Completa tus datos para apartar los números</div>
+
+      <label>Tu nombre completo</label>
+      <input type="text" id="m-name" placeholder="Ej: María García">
+
+      <label>Tu número de WhatsApp</label>
+      <input type="tel" id="m-phone" placeholder="Ej: 0991234567">
+
+      <label>Banco de pago</label>
+      <select id="m-bank">
+        <option value="">Selecciona un banco...</option>
+        <option value="pacifico">Banco Pacífico</option>
+        <option value="guayaquil">Banco Guayaquil</option>
+      </select>
+
+      <div class="modal-summary">
+        <div class="ms-label">Números seleccionados:</div>
+        <div class="ms-nums" id="m-nums-list">—</div>
+        <div class="ms-total" id="m-total">Total a pagar: $0.00</div>
+      </div>
+
+      <div class="modal-actions">
+        <button class="btn-cancel" onclick="cerrarModal()">Cancelar</button>
+        <button class="btn-confirm" onclick="confirmarReserva()">✅ Confirmar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ADMIN PANEL (⚙ botón abajo a la izquierda) -->
+  <button class="admin-btn" onclick="document.getElementById('adminPanel').classList.toggle('show')"
+    title="Admin">⚙</button>
+  <div class="admin-panel" id="adminPanel">
+    <button class="admin-close" onclick="document.getElementById('adminPanel').classList.remove('show')">✕</button>
+    <h3>⚙ Admin GeraldWin</h3>
+    <div class="row"><span>Conexión CSV:</span><span class="val" id="csv-status">—</span></div>
+    <div class="row"><span>Modo:</span><span class="val" id="data-mode">Config manual</span></div>
+    <label class="file-label">📂 Subir Excel (.xlsx)<input type="file" id="excelInput" accept=".xlsx,.xls"></label>
+    <div id="excel-status"></div>
+    <button class="btn-admin" onclick="exportarHTML()" id="btnExportar" style="display:none">💾 Exportar HTML para
+      Drive</button>
+    <div style="font-size:0.65rem;color:rgba(255,255,255,0.25);margin-top:8px;text-align:center;">
+      1. Sube el Excel → 2. Click "Exportar" → 3. Subes ese HTML a Drive
+    </div>
+  </div>
+
+  <!-- FLOATING WHATSAPP -->
+  <a href="https://wa.me/593XXXXXXXXX" target="_blank" class="wa-float">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+      <path
+        d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347" />
+    </svg>
+    WhatsApp
+  </a>
+
+  <!-- TOAST -->
+  <div class="toast" id="toast"></div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+  <script>
+    // ==================== CONFIGURACIÓN ====================
+    const CONFIG = {
+      // === CONFIGURACIÓN ===
+      // Edita estos valores o modifica el Excel y copia los datos aquí
+      precio: 2.00,
+      totalNumeros: 100,
+      drawDate: new Date('2025-12-31T20:00:00'),
+      premio: "TV 50 pulgadas + Membresia 6 meses",
+      nombreSorteo: "GeraldWin",
+
+      bancoPacifico: {
+        titular: "Tu Nombre Aqui",
+        cuenta: "0000000000",
+        cedula: "0000000000"
+      },
+      bancoGuayaquil: {
+        titular: "Tu Nombre Aqui",
+        cuenta: "0987654321",
+        cedula: "1712345678"
+      },
+      whatsapp: "593991234567",
+      transmision: "Facebook Live",
+      instagram: "@geraldwin",
+
+      vendidos: [],
+
+      // Mensajes WhatsApp ({nombre}, {numeros}, {total}, {phone} se reemplazan solos)
+      mensajes: {
+        pago: "Hola! Quiero participar en GeraldWin. Mi nombre es {nombre}, teléfono {phone}, y elegí el número {numeros}. Adjunto mi comprobante.",
+        info: "Hola! Quiero más información sobre GeraldWin."
+      },
+
+      // Premios de la ruleta (configurables)
+      premios: [
+        { emoji: "🍹", nombre: "Toma todos", color: "#E94560", prob: 2 },
+        { emoji: "🏊", nombre: "1 día gratis gym", color: "#4A9FE5", prob: 40 },
+        { emoji: "💪", nombre: "2 días gratis gym", color: "#7F77DD", prob: 30 },
+        { emoji: "🏋️", nombre: "3 días gratis gym", color: "#3B6D11", prob: 24 },
+        { emoji: "🎽", nombre: "Toalla deportiva", color: "#BA7517", prob: 1 },
+        { emoji: "🔴", nombre: "Bandas elásticas", color: "#D85A30", prob: 1 },
+        { emoji: "🥊", nombre: "Guantes de gym", color: "#993556", prob: 1 },
+        { emoji: "🎁", nombre: "Producto secreto ✨", color: "#F5C842", prob: 1 }
+      ]
+    };
+
+    // ==================== ESTADO ====================
+    let selected = new Set();
+    let spinning = false;
+    let wheelAngle = 0;
+    let PREMIOS = CONFIG.premios;
+
+    // ==================== DATOS EXTERNOS (CSV / EXCEL) ====================
+    // Opción 1 — Google Sheets (automático)
+    // Pega aquí los URLs que Google Sheets te da al PUBLICAR cada hoja como CSV
+    const CSV_URLS = { estadoPublico: "", configuracion: "" };
+
+    // Opción 2 — Subir Excel manual (cuando no hay Google Sheets)
+    // Toca el logo 5 veces para abrir el panel admin
+
+    function parseCSV(line) {
+      const r = []; let c = '', q = false;
+      for (let i = 0; i < line.length; i++) {
+        const ch = line[i];
+        if (ch === '"') { q = !q; continue; }
+        if (ch === ',' && !q) { r.push(c.trim()); c = ''; continue; }
+        c += ch;
+      }
+      r.push(c.trim());
+      return r;
+    }
+
+    async function cargarCSV() {
+      if (!CSV_URLS.estadoPublico && !CSV_URLS.configuracion) return;
+      document.getElementById('csv-status').textContent = '🔄 Conectando...';
+      let okEP = false, okCfg = false, errMsg = '';
+      try {
+        if (CSV_URLS.estadoPublico) {
+          const r = await fetch(CSV_URLS.estadoPublico);
+          if (!r.ok) throw new Error(`HTTP ${r.status} al cargar Estado Publico`);
+          const txt = await r.text();
+          const lines = txt.trim().split('\n');
+          const sold = [];
+          for (let i = 1; i < lines.length; i++) {
+            const c = parseCSV(lines[i]);
+            const num = parseInt(c[1]);
+            const st = (c[2] || '').toLowerCase();
+            if ((st === 'vendido' || st === 'ocupado' || st === 'reservado') && !isNaN(num)) sold.push(num);
+          }
+          if (sold.length > 0) { CONFIG.vendidos = sold; okEP = true; }
+          else errMsg = 'Estado Publico: 0 vendidos encontrados';
+        }
+        if (CSV_URLS.configuracion) {
+          const r = await fetch(CSV_URLS.configuracion);
+          if (!r.ok) throw new Error(`HTTP ${r.status} al cargar Configuracion`);
+          const txt = await r.text();
+          const lines = txt.trim().split('\n');
+          const p = {};
+          for (let i = 1; i < lines.length; i++) {
+            const c = parseCSV(lines[i]);
+            if (c.length >= 2) p[c[0]] = c[1];
+          }
+          if (p['Nombre del sorteo']) CONFIG.nombreSorteo = p['Nombre del sorteo'];
+          if (p['Premio mayor']) CONFIG.premio = p['Premio mayor'];
+          if (p['Precio por numero']) CONFIG.precio = parseFloat(p['Precio por numero']) || CONFIG.precio;
+          if (p['Total de numeros']) CONFIG.totalNumeros = parseInt(p['Total de numeros']) || CONFIG.totalNumeros;
+          if (p['Fecha del sorteo'] && p['Hora del sorteo']) {
+            const d = p['Fecha del sorteo'].split('/'), t = p['Hora del sorteo'].split(':');
+            if (d.length === 3) {
+              const y = parseInt(d[2]), m = parseInt(d[1]) - 1, dd = parseInt(d[0]), hh = parseInt(t[0]) || 20, mm = parseInt(t[1]) || 0;
+              if (!isNaN(y) && !isNaN(m) && !isNaN(dd)) CONFIG.drawDate = new Date(y, m, dd, hh, mm);
+            }
+          }
+          ['Transmision', 'Instagram', 'Banco Pacifico - Titular', 'Banco Pacifico - N de cuenta',
+            'Banco Pacifico - Cedula', 'Banco Guayaquil - Titular', 'Banco Guayaquil - N de cuenta',
+            'Banco Guayaquil - Cedula', 'WhatsApp organizador', 'WhatsApp - Mensaje Pago', 'WhatsApp - Mensaje Info'
+          ].forEach(k => {
+            if (p[k]) {
+              if (k.startsWith('Banco Pacifico - Titular')) CONFIG.bancoPacifico.titular = p[k];
+              else if (k.startsWith('Banco Pacifico - N de cuenta')) CONFIG.bancoPacifico.cuenta = p[k];
+              else if (k.startsWith('Banco Pacifico - Cedula')) CONFIG.bancoPacifico.cedula = p[k];
+              else if (k.startsWith('Banco Guayaquil - Titular')) CONFIG.bancoGuayaquil.titular = p[k];
+              else if (k.startsWith('Banco Guayaquil - N de cuenta')) CONFIG.bancoGuayaquil.cuenta = p[k];
+              else if (k.startsWith('Banco Guayaquil - Cedula')) CONFIG.bancoGuayaquil.cedula = p[k];
+              else if (k === 'WhatsApp organizador') CONFIG.whatsapp = p[k];
+              else if (k === 'WhatsApp - Mensaje Pago') CONFIG.mensajes.pago = p[k];
+              else if (k === 'WhatsApp - Mensaje Info') CONFIG.mensajes.info = p[k];
+              else CONFIG[k.toLowerCase()] = p[k];
+            }
+          });
+          const np = [];
+          for (let i = 1; i <= 20; i++) {
+            const v = p[`Ruleta - Premio ${i}`];
+            if (v) { const ps = v.split(';'); if (ps.length >= 4) np.push({ emoji: ps[0].trim(), nombre: ps[1].trim(), color: ps[2].trim(), prob: parseInt(ps[3]) || 0 }); }
+          }
+          if (np.length > 0) { CONFIG.premios = np; PREMIOS.length = 0; np.forEach(x => PREMIOS.push(x)); }
+          okCfg = true;
+        }
+      } catch (e) { errMsg = e.message || 'Error de conexión'; }
+      if (okEP || okCfg) {
+        document.getElementById('csv-status').textContent = '✅ Conectado';
+        document.getElementById('data-mode').textContent = 'Google Sheets';
+        showToast('✅ Datos cargados desde Google Sheets');
+      } else {
+        document.getElementById('csv-status').textContent = errMsg ? '⚠ Error' : '— Sin URL';
+        document.getElementById('data-mode').textContent = 'Config manual';
+      }
+    }
+
+    // ==================== ADMIN PANEL ====================
+    document.addEventListener('DOMContentLoaded', () => {
+      // Cargar Excel desde admin
+      document.getElementById('excelInput')?.addEventListener('change', function (e) {
+        const file = e.target.files[0];
+        if (!file) return;
+        const reader = new FileReader();
+        reader.onload = function (ev) {
+          try {
+            const data = new Uint8Array(ev.target.result);
+            const wb = XLSX.read(data, { type: 'array' });
+            // Estado Publico
+            const ep = XLSX.utils.sheet_to_json(wb.Sheets['Estado Publico'], { header: 1 });
+            const sold = [];
+            for (let i = 3; i < ep.length; i++) {
+              if (!ep[i] || ep[i].length < 2) continue;
+              const n = parseInt(ep[i][0]), st = String(ep[i][1] || '').toLowerCase();
+              if ((st === 'vendido' || st === 'ocupado') && !isNaN(n)) sold.push(n);
+            }
+            if (sold.length > 0) CONFIG.vendidos = sold;
+            // Configuracion
+            const cfg = XLSX.utils.sheet_to_json(wb.Sheets['Configuracion'], { header: 1 });
+            let sec = '';
+            cfg.forEach(r => {
+              if (!r || r.length === 0) return;
+              const k = String(r[0] || '').trim();
+              if (k === 'SORTEO' || k === 'CONTACTO') { sec = k; return; }
+              if (k.startsWith('BANCO PACIFICO')) { sec = 'P'; return; }
+              if (k.startsWith('BANCO GUAYAQUIL')) { sec = 'G'; return; }
+              if (k.startsWith('CONFIG') || k.startsWith('Edita')) return;
+              const v = r[1];
+              if (sec === 'P') {
+                if (k === 'Titular') CONFIG.bancoPacifico.titular = v;
+                else if (k === 'N de cuenta') CONFIG.bancoPacifico.cuenta = v;
+                else if (k === 'Cedula') CONFIG.bancoPacifico.cedula = v;
+              } else if (sec === 'G') {
+                if (k === 'Titular') CONFIG.bancoGuayaquil.titular = v;
+                else if (k === 'N de cuenta') CONFIG.bancoGuayaquil.cuenta = v;
+                else if (k === 'Cedula') CONFIG.bancoGuayaquil.cedula = v;
+              } else {
+                if (k === 'Nombre del sorteo') CONFIG.nombreSorteo = v;
+                else if (k === 'Premio mayor') CONFIG.premio = v;
+                else if (k === 'Precio por numero') CONFIG.precio = parseFloat(v) || CONFIG.precio;
+                else if (k === 'Total de numeros') CONFIG.totalNumeros = parseInt(v) || CONFIG.totalNumeros;
+                else if (k === 'Fecha del sorteo') { /* se combina con hora abajo */ }
+                else if (k === 'Hora del sorteo') { /* se combina */ }
+                else if (k === 'Transmision') CONFIG.transmision = v;
+                else if (k === 'Instagram') CONFIG.instagram = v;
+                else if (k === 'WhatsApp organizador') CONFIG.whatsapp = v;
+              }
+            });
+            // Fecha combinada
+            const fd = cfg.find(r => r && String(r[0] || '').trim() === 'Fecha del sorteo');
+            const fh = cfg.find(r => r && String(r[0] || '').trim() === 'Hora del sorteo');
+            if (fd && fh && fd[1] && fh[1]) {
+              const d = String(fd[1]).split('/'), t = String(fh[1]).split(':');
+              if (d.length === 3) {
+                const y = parseInt(d[2]), m = parseInt(d[1]) - 1, dd = parseInt(d[0]), hh = parseInt(t[0]) || 20, mm = parseInt(t[1]) || 0;
+                if (!isNaN(y) && !isNaN(m) && !isNaN(dd)) CONFIG.drawDate = new Date(y, m, dd, hh, mm);
+              }
+            }
+            document.getElementById('excel-status').textContent = `✅ ${sold.length} vendidos cargados`;
+            document.getElementById('excel-status').style.color = '#00D084';
+            document.getElementById('btnExportar').style.display = 'block';
+            showToast('✅ Excel cargado — haz clic en "Exportar HTML"');
+          } catch (ex) {
+            document.getElementById('excel-status').textContent = '❌ Error: ' + ex.message;
+          }
+        };
+        reader.readAsArrayBuffer(file);
+      });
+    });
+
+    // ==================== ADMIN PANEL CSS ====================
+    // (inyectado inline)
+
+    // ==================== EXPORTAR HTML para Drive ====================
+    function exportarHTML() {
+      let html = document.documentElement.outerHTML;
+      let ok = true;
+
+      try {
+        // 1) Reemplazar CONFIG con datos actualizados
+        const cfg = {
+          precio: CONFIG.precio,
+          totalNumeros: CONFIG.totalNumeros,
+          premio: CONFIG.premio,
+          nombreSorteo: CONFIG.nombreSorteo,
+          bancoPacifico: CONFIG.bancoPacifico,
+          bancoGuayaquil: CONFIG.bancoGuayaquil,
+          whatsapp: CONFIG.whatsapp,
+          transmision: CONFIG.transmision,
+          instagram: CONFIG.instagram,
+          vendidos: [...CONFIG.vendidos].sort((a, b) => a - b),
+          mensajes: CONFIG.mensajes,
+          premios: CONFIG.premios,
+          drawDate: CONFIG.drawDate.toISOString().replace('T', ' ').slice(0, 19)
+        };
+        let js = JSON.stringify(cfg, null, 2);
+        js = js.replace(/"drawDate": "([^"]+)"/, 'drawDate: new Date("$1")');
+        js = js.replace(/"(\w+)":/g, '$1:');
+        const newConfigBlock = `const CONFIG = ${js};`;
+
+        const cStart = html.indexOf('const CONFIG = {');
+        const cEnd = html.indexOf('// ==================== ESTADO ====================');
+        if (cStart === -1 || cEnd === -1) throw new Error('No se encontró CONFIG');
+        html = html.slice(0, cStart) + newConfigBlock + html.slice(cEnd);
+
+        // 2) Quitar XLSX CDN
+        html = html.replace(/<script src="https:\/\/cdnjs\.cloudflare\.com\/ajax\/libs\/xlsx\/[^"]+"><\/script>\s*/, '');
+
+        // 3) Quitar admin panel y boton (desde el comentario hasta FLOATING WHATSAPP)
+        const aStart = html.indexOf('<!-- ADMIN PANEL');
+        const aEnd = html.indexOf('<!-- FLOATING WHATSAPP');
+        if (aStart > -1 && aEnd > aStart) html = html.slice(0, aStart) + html.slice(aEnd);
+
+        // 4) Quitar funciones de carga (CSV_URLS, parseCSV, cargarCSV, admin panel JS, exportarHTML)
+        const initMrk = '// ====' + '================ INIT ====================';
+        const fStart = html.indexOf('const CSV_URLS');
+        const fEnd = html.indexOf(initMrk);
+        if (fStart > -1 && fEnd > fStart) html = html.slice(0, fStart) + html.slice(fEnd);
+
+        // 5) En INIT: async → sync, quitar await cargarCSV
+        html = html.replace(
+          /document\.addEventListener\('DOMContentLoaded',\s*async\s*\(\)\s*=>\s*\{\s*\n\s*await cargarCSV\(\);\s*/,
+          "document.addEventListener('DOMContentLoaded', () => {"
+        );
+
+      } catch (e) {
+        showToast('❌ Error al exportar: ' + e.message);
+        ok = false;
+      }
+
+      if (ok) {
+        const blob = new Blob([html], { type: 'text/html' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url; a.download = 'GeraldWin.html';
+        a.click();
+        URL.revokeObjectURL(url);
+        showToast('✅ HTML exportado — súbelo a Google Drive');
+      }
+    }
+
+    // ==================== INIT ====================
+    document.addEventListener('DOMContentLoaded', async () => {
+      await cargarCSV();
+      applyConfig();
+      buildGrid();
+      initWheel();
+      startCountdown();
+      updateProgress();
+      window.addEventListener('resize', () => {
+        const size = getWheelSize();
+        const canvas = document.getElementById('wheelCanvas');
+        if (canvas.width !== size) initWheel();
+      });
+    });
+
+    function applyConfig() {
+      // Datos bancarios
+      document.getElementById('bp-titular').textContent = CONFIG.bancoPacifico.titular;
+      document.getElementById('bp-cuenta').textContent = CONFIG.bancoPacifico.cuenta;
+      document.getElementById('bp-cedula').textContent = CONFIG.bancoPacifico.cedula;
+      document.getElementById('bg-titular').textContent = CONFIG.bancoGuayaquil.titular;
+      document.getElementById('bg-cuenta').textContent = CONFIG.bancoGuayaquil.cuenta;
+      document.getElementById('bg-cedula').textContent = CONFIG.bancoGuayaquil.cedula;
+
+      // WhatsApp links
+      const waBase = `https://wa.me/${CONFIG.whatsapp}`;
+      document.querySelector('.wa-float').href = waBase;
+      const waPago = document.getElementById('wa-pago');
+      if (waPago) waPago.href = waBase + '?text=' + encodeURIComponent(CONFIG.mensajes.pago);
+      const waInfo = document.getElementById('wa-info');
+      if (waInfo) waInfo.href = waBase + '?text=' + encodeURIComponent(CONFIG.mensajes.info);
+
+      // Precio
+      document.getElementById('display-price').textContent = `$${CONFIG.precio.toFixed(2)}`;
+      document.getElementById('draw-price-info').textContent = `$${CONFIG.precio.toFixed(2)}`;
+      document.getElementById('draw-total-nums').textContent = CONFIG.totalNumeros;
+      document.getElementById('draw-prize').textContent = CONFIG.premio;
+
+      // Fecha
+      const opts = { day: '2-digit', month: 'long', year: 'numeric' };
+      document.getElementById('draw-date').textContent = CONFIG.drawDate.toLocaleDateString('es-EC', opts);
+      const h = CONFIG.drawDate.getHours().toString().padStart(2, '0');
+      const m = CONFIG.drawDate.getMinutes().toString().padStart(2, '0');
+      document.getElementById('draw-time').textContent = `${h}:${m}`;
+
+      document.getElementById('draw-transmision').textContent = CONFIG.transmision || 'Facebook Live';
+
+      // Lista de premios dinámica
+      const pl = document.getElementById('prizesList');
+      if (pl) {
+        let html = '<div class="prizes-list-header">Premios disponibles</div>';
+        CONFIG.premios.forEach(p => {
+          html += `<div class="prize-row"><div class="p-emoji">${p.emoji}</div><div class="p-name">${p.nombre}</div></div>`;
+        });
+        pl.innerHTML = html;
+      }
+    }
+
+    // ==================== GRID ====================
+    function buildGrid() {
+      const grid = document.getElementById('numGrid');
+      grid.innerHTML = '';
+      for (let i = 0; i < CONFIG.totalNumeros; i++) {
+        const n = i.toString().padStart(2, '0');
+        const btn = document.createElement('button');
+        btn.className = 'num-btn';
+        btn.textContent = n;
+        btn.dataset.num = i;
+        if (CONFIG.vendidos.includes(i)) {
+          btn.classList.add('sold');
+          btn.title = 'Vendido';
+        } else {
+          btn.onclick = () => toggleNum(i, btn);
+        }
+        grid.appendChild(btn);
+      }
+    }
+
+    function toggleNum(n, btn) {
+      if (selected.has(n)) {
+        selected.delete(n);
+        btn.classList.remove('selected');
+      } else {
+        selected.add(n);
+        btn.classList.add('selected');
+      }
+      updateSummary();
+    }
+
+    function buscarNumero() {
+      const val = parseInt(document.getElementById('search-num').value);
+      if (isNaN(val) || val < 0 || val >= CONFIG.totalNumeros) {
+        showToast("❌ Número fuera de rango");
+        return;
+      }
+      const btns = document.querySelectorAll('.num-btn');
+      btns[val].scrollIntoView({ behavior: 'smooth', block: 'center' });
+      btns[val].style.transform = 'scale(1.4)';
+      setTimeout(() => { btns[val].style.transform = ''; }, 800);
+    }
+
+    function updateSummary() {
+      const arr = Array.from(selected).sort((a, b) => a - b).map(n => n.toString().padStart(2, '0'));
+      const summary = document.getElementById('selectedSummary');
+      const reserve = document.getElementById('btnReserve');
+
+      if (arr.length === 0) {
+        summary.style.display = 'none';
+        reserve.disabled = true;
+      } else {
+        summary.style.display = 'block';
+        reserve.disabled = false;
+        document.getElementById('selectedNums').textContent = arr.join(', ');
+        const total = (arr.length * CONFIG.precio).toFixed(2);
+        document.getElementById('selectedTotal').textContent = `Total: $${total} · ${arr.length} número${arr.length > 1 ? 's' : ''}`;
+      }
+    }
+
+    // ==================== MODAL ====================
+    function abrirModal() {
+      if (selected.size === 0) return;
+      const arr = Array.from(selected).sort((a, b) => a - b).map(n => n.toString().padStart(2, '0'));
+      document.getElementById('m-nums-list').textContent = arr.join(', ');
+      document.getElementById('m-total').textContent = `Total a pagar: $${(selected.size * CONFIG.precio).toFixed(2)}`;
+      document.getElementById('modalOverlay').classList.add('show');
+    }
+
+    function cerrarModal() {
+      document.getElementById('modalOverlay').classList.remove('show');
+    }
+
+    function confirmarReserva() {
+      const name = document.getElementById('m-name').value.trim();
+      const phone = document.getElementById('m-phone').value.trim();
+      const bank = document.getElementById('m-bank').value;
+      if (!name || !phone || !bank) { showToast("⚠ Completa todos los campos"); return; }
+
+      const arr = Array.from(selected).sort((a, b) => a - b).map(n => n.toString().padStart(2, '0'));
+      const total = (selected.size * CONFIG.precio).toFixed(2);
+      const bankName = bank === 'pacifico' ? 'Banco Pacífico' : 'Banco Guayaquil';
+      const bankData = bank === 'pacifico' ? CONFIG.bancoPacifico : CONFIG.bancoGuayaquil;
+
+      const baseMsg = CONFIG.mensajes.pago
+        .replace(/\{nombre\}/g, name)
+        .replace(/\{numeros\}/g, arr.join(', '))
+        .replace(/\{total\}/g, `$${total}`)
+        .replace(/\{phone\}/g, phone);
+      const msg = encodeURIComponent(`${baseMsg}\n\n🏦 ${bankName}\n📋 Cuenta: ${bankData.cuenta}`);
+
+      cerrarModal();
+      window.open(`https://wa.me/${CONFIG.whatsapp}?text=${msg}`, '_blank');
+      showToast("✅ ¡Redirigiendo a WhatsApp!");
+    }
+
+    document.getElementById('modalOverlay').addEventListener('click', function (e) {
+      if (e.target === this) cerrarModal();
+    });
+
+    // ==================== RULETA ====================
+    function getWheelSize() {
+      return window.innerWidth >= 768 ? 420 : 280;
+    }
+
+    function initWheel() {
+      const canvas = document.getElementById('wheelCanvas');
+      const size = getWheelSize();
+      canvas.width = size;
+      canvas.height = size;
+      const wrap = document.querySelector('.wheel-wrap');
+      wrap.style.width = size + 'px';
+      wrap.style.height = size + 'px';
+      const center = document.querySelector('.wheel-center');
+      const cs = Math.round(38 * size / 280);
+      center.style.width = cs + 'px';
+      center.style.height = cs + 'px';
+      center.style.fontSize = Math.round(cs * 0.42) + 'px';
+      drawWheel(wheelAngle);
+    }
+
+    function drawWheel(angle) {
+      const canvas = document.getElementById('wheelCanvas');
+      const ctx = canvas.getContext('2d');
+      const size = canvas.width;
+      const cx = size / 2, cy = size / 2;
+      const r = cx - size * 0.015;
+      const s = size / 280;
+      const n = PREMIOS.length;
+      const slice = (Math.PI * 2) / n;
+
+      ctx.clearRect(0, 0, size, size);
+
+      ctx.save();
+      ctx.shadowColor = 'rgba(0,0,0,0.5)';
+      ctx.shadowBlur = 12 * s;
+      ctx.beginPath();
+      ctx.arc(cx, cy, r, 0, Math.PI * 2);
+      ctx.fillStyle = '#1A1A2E';
+      ctx.fill();
+      ctx.restore();
+
+      PREMIOS.forEach((p, i) => {
+        const start = angle + i * slice;
+        const end = start + slice;
+
+        ctx.beginPath();
+        ctx.moveTo(cx, cy);
+        ctx.arc(cx, cy, r, start, end);
+        ctx.closePath();
+        ctx.fillStyle = p.color;
+        ctx.fill();
+        ctx.strokeStyle = 'rgba(0,0,0,0.35)';
+        ctx.lineWidth = 1.5 * s;
+        ctx.stroke();
+
+        ctx.save();
+        ctx.translate(cx, cy);
+        ctx.rotate(start + slice / 2);
+        ctx.textAlign = 'right';
+        const maxW = r - 12 * s;
+        let fs = 12 * s;
+        ctx.font = `bold ${fs}px Inter, sans-serif`;
+        while (ctx.measureText(p.nombre).width > maxW && fs > 6 * s) {
+          fs -= 0.5 * s;
+          ctx.font = `bold ${fs}px Inter, sans-serif`;
+        }
+        ctx.fillStyle = 'rgba(255,255,255,0.95)';
+        ctx.fillText(p.nombre, r - 8 * s, 3 * s);
+        ctx.font = `${12 * s}px serif`;
+        const ew = ctx.measureText(p.emoji).width + 4 * s;
+        ctx.fillText(p.emoji, r - 8 * s - ctx.measureText(p.nombre).width - ew, 4 * s);
+        ctx.restore();
+      });
+
+      ctx.beginPath();
+      ctx.arc(cx, cy, r, 0, Math.PI * 2);
+      ctx.strokeStyle = '#F5C842';
+      ctx.lineWidth = 3 * s;
+      ctx.stroke();
+
+      ctx.beginPath();
+      ctx.arc(cx, cy, 20 * s, 0, Math.PI * 2);
+      ctx.fillStyle = '#1A1A2E';
+      ctx.fill();
+      ctx.strokeStyle = '#F5C842';
+      ctx.lineWidth = 2 * s;
+      ctx.stroke();
+    }
+
+    function girarRuleta() {
+      if (spinning) return;
+      spinning = true;
+      document.getElementById('btnSpin').disabled = true;
+      document.getElementById('spinResult').classList.remove('show');
+
+      const rand = Math.random() * 100;
+      let acc = 0, chosen = 0;
+      for (let i = 0; i < PREMIOS.length; i++) {
+        acc += PREMIOS[i].prob;
+        if (rand < acc) { chosen = i; break; }
+      }
+
+      const n = PREMIOS.length;
+      const slice = (Math.PI * 2) / n;
+      const targetAngle = -Math.PI / 2 - (chosen * slice + slice / 2);
+      const spins = 5 + Math.random() * 3;
+      const finalAngle = targetAngle - spins * Math.PI * 2;
+      const duration = 4500;
+      const start = performance.now();
+      const startA = wheelAngle;
+
+      function animate(now) {
+        const t = Math.min((now - start) / duration, 1);
+        const ease = 1 - Math.pow(1 - t, 4);
+        const current = startA + (finalAngle - startA) * ease;
+        wheelAngle = current;
+        drawWheel(current);
+
+        if (t < 1) {
+          requestAnimationFrame(animate);
+        } else {
+          spinning = false;
+          document.getElementById('btnSpin').disabled = false;
+          showPrize(chosen);
+        }
+      }
+
+      requestAnimationFrame(animate);
+    }
+
+    function showPrize(i) {
+      const p = PREMIOS[i];
+      document.getElementById('resultEmoji').textContent = p.emoji;
+      document.getElementById('resultPrize').textContent = p.nombre;
+      const res = document.getElementById('spinResult');
+      res.classList.add('show');
+      res.style.borderColor = p.color + '55';
+      showToast(`🎉 ¡Ganaste: ${p.nombre}!`);
+    }
+
+    // ==================== COUNTDOWN ====================
+    function startCountdown() {
+      function tick() {
+        const now = new Date();
+        const diff = CONFIG.drawDate - now;
+        if (diff <= 0) {
+          document.getElementById('cd-days').textContent = '00';
+          document.getElementById('cd-hours').textContent = '00';
+          document.getElementById('cd-mins').textContent = '00';
+          document.getElementById('cd-secs').textContent = '00';
+          return;
+        }
+        const days = Math.floor(diff / 86400000);
+        const hours = Math.floor((diff % 86400000) / 3600000);
+        const mins = Math.floor((diff % 3600000) / 60000);
+        const secs = Math.floor((diff % 60000) / 1000);
+        document.getElementById('cd-days').textContent = days.toString().padStart(2, '0');
+        document.getElementById('cd-hours').textContent = hours.toString().padStart(2, '0');
+        document.getElementById('cd-mins').textContent = mins.toString().padStart(2, '0');
+        document.getElementById('cd-secs').textContent = secs.toString().padStart(2, '0');
+      }
+      tick();
+      setInterval(tick, 1000);
+    }
+
+    function updateProgress() {
+      const sold = CONFIG.vendidos.length;
+      const total = CONFIG.totalNumeros;
+      const pct = Math.round((sold / total) * 100);
+      document.getElementById('sold-count').textContent = `${sold} / ${total}`;
+      document.getElementById('progress-fill').style.width = pct + '%';
+    }
+
+    // ==================== TABS ====================
+    function showTab(tab) {
+      document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+      document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+      document.getElementById('sec-' + tab).classList.add('active');
+      event.currentTarget.classList.add('active');
+    }
+
+    // ==================== COPIAR ====================
+    function copiar(id, btn) {
+      const text = document.getElementById(id).textContent;
+      navigator.clipboard.writeText(text).then(() => {
+        btn.textContent = '✓';
+        btn.classList.add('copied');
+        showToast(`✅ Copiado: ${text}`);
+        setTimeout(() => { btn.textContent = 'Copiar'; btn.classList.remove('copied'); }, 2000);
+      });
+    }
+
+    // ==================== TOAST ====================
+    function showToast(msg) {
+      const t = document.getElementById('toast');
+      t.textContent = msg;
+      t.classList.add('show');
+      setTimeout(() => t.classList.remove('show'), 3000);
+    }
+  </script>
+</body>
+
+</html>
